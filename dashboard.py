@@ -1,63 +1,76 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
-import plotly.express as px
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
 
-# Connect to SQLite database
-conn = sqlite3.connect("sales_data.db")
+# ✅ Set up Streamlit page config
+st.set_page_config(page_title="Sales Dashboard", layout="wide")
+
+# Ensure the database file exists
+DB_PATH = os.getenv("DATABASE_URL", "db/sales_data.db").replace("sqlite:///", "")
+
+# Function to get database connection
+@st.cache_data
+def get_data():
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        df = pd.read_sql("SELECT * FROM sales", conn)
+        conn.close()
+        return df
+    except Exception as e:
+        st.error(f"Error loading data: {e}")
+        return pd.DataFrame()  # Return empty dataframe if there's an issue
 
 # Load data
-df = pd.read_sql("SELECT * FROM sales", conn)
-
-# Close connection
-conn.close()
-
-# ---- Streamlit UI ----
-st.set_page_config(page_title="Sales Dashboard", layout="wide")
+df = get_data()
 
 st.title("📊 Sales Dashboard")
 
-# ---- Total Revenue ----
-total_revenue = df["Sales"].sum()
-st.metric(label="💰 Total Revenue", value=f"${total_revenue:,.2f}")
+# If no data is found, show a message
+if df.empty:
+    st.warning("No sales data available.")
+else:
+    # ---- Total Revenue ----
+    total_revenue = df["Sales"].sum()
+    st.metric(label="💰 Total Revenue", value=f"${total_revenue:,.2f}")
 
-# ---- Top 5 Best-Selling Products ----
-top_products = df.groupby("Product Name")["Sales"].sum().reset_index()
-top_products = top_products.sort_values(by="Sales", ascending=False).head(5)
+    # ---- Top 5 Best-Selling Products ----
+    top_products = df.groupby("Product Name")["Sales"].sum().reset_index()
+    top_products = top_products.sort_values(by="Sales", ascending=False).head(5)
 
-fig_top_products = px.bar(
-    top_products, x="Sales", y="Product Name", 
-    orientation="h", title="🏆 Top 5 Best-Selling Products",
-    color="Sales", height=400
-)
-st.plotly_chart(fig_top_products, use_container_width=True)
+    fig, ax = plt.subplots()
+    sns.barplot(x="Sales", y="Product Name", data=top_products, palette="Blues_r", ax=ax)
+    ax.set_title("🏆 Top 5 Best-Selling Products")
+    st.pyplot(fig)
 
-# ---- Sales by Region ----
-region_sales = df.groupby("Region")["Sales"].sum().reset_index()
-fig_region = px.pie(
-    region_sales, values="Sales", names="Region", 
-    title="🌍 Sales Distribution by Region"
-)
-st.plotly_chart(fig_region, use_container_width=True)
+    # ---- Sales by Region ----
+    region_sales = df.groupby("Region")["Sales"].sum().reset_index()
 
-# ---- Sales Trend Over Time ----
-df["Order Date"] = pd.to_datetime(df["Order Date"], errors="coerce")
-df = df.dropna(subset=["Order Date"])  # Drop rows with invalid dates
-df["Year-Month"] = df["Order Date"].dt.to_period("M").astype(str)
+    fig, ax = plt.subplots()
+    ax.pie(region_sales["Sales"], labels=region_sales["Region"], autopct="%1.1f%%", colors=["red", "blue", "green"])
+    ax.set_title("🌍 Sales Distribution by Region")
+    st.pyplot(fig)
 
-sales_trend = df.groupby("Year-Month")["Sales"].sum().reset_index()
-fig_trend = px.line(
-    sales_trend, x="Year-Month", y="Sales", 
-    title="📈 Monthly Sales Trend"
-)
-st.plotly_chart(fig_trend, use_container_width=True)
+    # ---- Sales Trend Over Time ----
+    df["Order Date"] = pd.to_datetime(df["Order Date"], errors="coerce")
+    df = df.dropna(subset=["Order Date"])  # Drop rows with invalid dates
+    df["Year-Month"] = df["Order Date"].dt.to_period("M").astype(str)
 
-# ---- Filters (Optional) ----
-st.sidebar.header("🔍 Filters")
-selected_region = st.sidebar.multiselect("Select Region:", df["Region"].unique())
+    sales_trend = df.groupby("Year-Month")["Sales"].sum().reset_index()
 
-if selected_region:
-    df = df[df["Region"].isin(selected_region)]
+    fig, ax = plt.subplots()
+    sns.lineplot(x="Year-Month", y="Sales", data=sales_trend, marker="o", color="purple", ax=ax)
+    ax.set_title("📈 Monthly Sales Trend")
+    plt.xticks(rotation=45)
+    st.pyplot(fig)
 
-st.dataframe(df.head(50))  # Display filtered data
+    # ---- Filters ----
+    st.sidebar.header("🔍 Filters")
+    selected_region = st.sidebar.multiselect("Select Region:", df["Region"].unique())
 
+    if selected_region:
+        df = df[df["Region"].isin(selected_region)]
+
+    st.dataframe(df.head(50))  # Display filtered data
