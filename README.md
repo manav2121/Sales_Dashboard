@@ -58,7 +58,8 @@ DATABASE_URL=db/sales_data.db
 ```
 
 ## 🖼️ Screenshots
-💡 *(Add relevant screenshots of your dashboard here)*
+💡 *(<img width="959" alt="image" src="https://github.com/user-attachments/assets/9d5c6cc4-6466-43da-8469-c86044cf256e" />
+)*
 
 ## 📝 License
 This project is open-source and available under the **MIT License**.
