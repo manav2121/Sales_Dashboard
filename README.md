@@ -1,103 +1,71 @@
 # 📊 Sales Dashboard
 
-This is a **Sales Dashboard** built with **Streamlit**, **SQLite**, **Matplotlib**, and **Seaborn** to visualize sales data effectively.
+## 🚀 Overview
+This is an interactive **Sales Dashboard** built with **Streamlit, SQLite, Pandas, Matplotlib, and Seaborn**. It visualizes sales data, showing revenue, top-selling products, sales distribution, and trends over time.
 
----
+## 🎯 Features
+- 💰 **Total Revenue Display**
+- 🏆 **Top 5 Best-Selling Products** (Bar Chart)
+- 🌍 **Sales Distribution by Region** (Pie Chart)
+- 📈 **Monthly Sales Trend** (Line Chart)
+- 🔍 **Filter Data by Region**
+- 📑 **Interactive Data Table**
 
-## 🚀 Features
-- **Total Revenue Display** 💰
-- **Top 5 Best-Selling Products** 🏆
-- **Sales Distribution by Region** 🌍
-- **Monthly Sales Trend Visualization** 📈
-- **Filters for Region Selection** 🔍
-- **Interactive & Dynamic Dashboard** ⚡
-
----
-
-## 🛠️ Installation & Setup
-### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/manav2121/Sales_Dashboard.git
-cd Sales_Dashboard
-```
-
-### 2️⃣ Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3️⃣ Run the Dashboard
-```bash
-streamlit run dashboard.py
-```
-
----
+## 🛠️ Tech Stack
+- **Frontend:** Streamlit
+- **Backend:** SQLite, Pandas
+- **Data Visualization:** Matplotlib, Seaborn
 
 ## 📂 Project Structure
 ```
-Sales_Dashboard/
-│-- dashboard.py          # Main Streamlit app
-│-- db/sales_data.db      # SQLite database (Ensure this file exists)
-│-- requirements.txt      # Required Python packages
-│-- README.md             # Project documentation
+📦 sales-dashboard
+├── 📜 dashboard.py      # Main Streamlit app
+├── 📜 requirements.txt  # Required dependencies
+├── 📂 db                # Database folder
+│   ├── sales_data.db   # SQLite database
+├── 📜 README.md         # Project documentation
 ```
 
----
+## 🏗️ Installation & Setup
 
-## 📦 Dependencies
-- **Streamlit**
-- **SQLite3**
-- **Pandas**
-- **Matplotlib**
-- **Seaborn**
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/your-username/sales-dashboard.git
+cd sales-dashboard
+```
 
-Install all dependencies using:
-```bash
+### 2️⃣ Create a Virtual Environment (Optional but Recommended)
+```sh
+python -m venv venv
+source venv/bin/activate  # On Mac/Linux
+venv\Scripts\activate     # On Windows
+```
+
+### 3️⃣ Install Dependencies
+```sh
 pip install -r requirements.txt
 ```
 
----
-
-## 🔧 Environment Variables
-Ensure you have a **valid database path** in your environment:
-```bash
-export DATABASE_URL="sqlite:///db/sales_data.db"
+### 4️⃣ Run the Application
+```sh
+streamlit run dashboard.py
 ```
 
----
+## 🔧 Environment Variables
+You can specify a custom database location in a **.env** file:
+```
+DATABASE_URL=db/sales_data.db
+```
 
-## 📝 Usage
-- Open the dashboard in your browser after running the app.
-- Explore sales trends, top products, and revenue.
-- Use filters to analyze specific regions.
+## 🖼️ Screenshots
+💡 *(Add relevant screenshots of your dashboard here)*
 
----
+## 📝 License
+This project is open-source and available under the **MIT License**.
 
-## 🔗 Deployment
-You can deploy this dashboard on **Railway, Vercel, or Streamlit Cloud**.
+## 🤝 Contributing
+Feel free to **fork** this repository, open an **issue**, or submit a **pull request**!
 
-**Example for Railway Deployment:**
-1. Upload your project to GitHub.
-2. Create a new project on [Railway](https://railway.app/).
-3. Connect your GitHub repository.
-4. Set environment variables (`DATABASE_URL`).
-5. Deploy and get your live dashboard!
-
----
-
-## 📌 Notes
-- Ensure that `db/sales_data.db` exists before running the app.
-- If you face **ModuleNotFoundError**, install missing packages using `pip install <package>`.
-
----
-
-## 🎯 Future Improvements
-- Add user authentication for secured access.
-- Implement **more data visualizations** using **Altair**.
-- Export reports as **PDF/CSV**.
-
----
-
-## 📞 Support
-For any issues, feel free to create an **Issue** in the repository or contact me. 🚀
+## ⭐ Show Your Support
+If you like this project, give it a ⭐ on GitHub!
 
