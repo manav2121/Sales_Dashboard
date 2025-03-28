@@ -8,10 +8,7 @@ import os
 # ✅ Set up Streamlit page config
 st.set_page_config(page_title="Sales Dashboard", layout="wide")
 
-# Ensure the database file exists
-DB_PATH = os.getenv("DATABASE_URL", "db/sales_data.db")
-
-
+DB_PATH = os.getenv("DATABASE_URL", "db/sales_data.db").replace("sqlite:///", "")
 
 # Function to get database connection
 @st.cache_data
