@@ -9,7 +9,8 @@ import os
 st.set_page_config(page_title="Sales Dashboard", layout="wide")
 
 # Ensure the database file exists
-DB_PATH = "E:/Sales_Dashboard_Project/db/sales_data.db"
+DB_PATH = os.path.join(os.getcwd(), "db", "sales_data.db")
+
 
 # Function to get database connection
 @st.cache_data
