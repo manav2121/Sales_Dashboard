@@ -9,7 +9,7 @@ import os
 st.set_page_config(page_title="Sales Dashboard", layout="wide")
 
 # Ensure the database file exists
-DB_PATH = os.getenv("DATABASE_URL", "db/sales_data.db").replace("sqlite:///", "")
+DB_PATH = "E:/Sales_Dashboard_Project/db/sales_data.db"
 
 # Function to get database connection
 @st.cache_data
