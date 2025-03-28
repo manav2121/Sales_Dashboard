@@ -3,4 +3,4 @@ streamlit
 matplotlib
 seaborn
 plotly
-sqlite3
+
